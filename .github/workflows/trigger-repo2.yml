@@ -12,7 +12,7 @@ jobs:
       - name: Send Input to Repository 2
         uses: peter-evans/repository-dispatch@v2
         with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          repository: username/repository-2  # Replace with actual repo
+          #token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          repository: MonikaSinghal-22/Repo2-action-test  # Replace with actual repo
           event-type: validate-and-call-api
           client-payload: '{"user": "monika", "data": "12345"}'
