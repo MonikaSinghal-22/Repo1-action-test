@@ -3,7 +3,7 @@ name: Trigger Repository 2
 on:
   push:
     branches:
-      - main  # Adjust as needed
+      - master  # Adjust as needed
 
 jobs:
   trigger-repo2:
