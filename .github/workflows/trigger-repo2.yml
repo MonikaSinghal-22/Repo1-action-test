@@ -1,0 +1,18 @@
+name: Trigger Repository 2
+
+on:
+  push:
+    branches:
+      - main  # Adjust as needed
+
+jobs:
+  trigger-repo2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Input to Repository 2
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          repository: username/repository-2  # Replace with actual repo
+          event-type: validate-and-call-api
+          client-payload: '{"user": "monika", "data": "12345"}'
