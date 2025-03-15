@@ -1,0 +1,19 @@
+name: Trigger Repository 2 Action
+
+on:
+  push:
+    branches:
+      - master  # Runs when code is pushed to 'main'
+
+jobs:
+  send-input:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Input JSON
+        run: |
+            echo '{"user": "monika", "data": "12345"}' > input.json
+
+      - name: Use Repository 2 Action
+        uses: MonikaSinghal-22/Repo2-action-test@v1.0  # Replace 'author/repository2' with your GitHub repo path
+        with:
+          input-data: '{"user": "monika", "data": "12345"}'
