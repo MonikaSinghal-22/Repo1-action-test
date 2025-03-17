@@ -6,7 +6,7 @@ on:
       repository_name:
         description: 'Repository Name'
         required: true
-        default: ${{ github.event.repository.name }}
+        default: ${{ github.repository }}
       version:
         description: 'Version'
         required: true
