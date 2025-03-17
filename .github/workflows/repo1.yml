@@ -11,6 +11,9 @@ on:
         description: 'Version'
         required: true
         default: '0.0.0'
+      input-data:
+        description: 'SBOM'
+        required: false
 jobs:
   send-input:
     runs-on: ubuntu-latest
