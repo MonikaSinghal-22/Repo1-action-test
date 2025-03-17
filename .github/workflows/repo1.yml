@@ -1,9 +1,24 @@
 name: Trigger Repository 2 Action
 
 on:
-  push:
-    branches:
-      - master  # Runs when code is pushed to 'main'
+  workflow_dispatch:
+    inputs:
+      repository_name:
+        description: 'Repository Name'
+        required: true
+        default: $(basename ${{ github.repository }})
+      version:
+        description: 'Version'
+        required: true
+        default: '0.0.0'
+      checksum_data:
+        description: 'Checksum data (in array format)'
+        required: false
+        default: '[]'
+
+  # push:
+  #   branches:
+  #     - master  # Runs when code is pushed to 'main'
 
 jobs:
   send-input:
@@ -26,6 +41,8 @@ jobs:
         shell: bash
 
       - name: Use Repository 2 Action
-        uses: MonikaSinghal-22/Repo2-action-test@v1.6  # Replace 'author/repository2' with your GitHub repo path
+        uses: MonikaSinghal-22/Repo2-action-test@v1.7  # Replace 'author/repository2' with your GitHub repo path
         with:
-          input-data: '{"user": "monika", "data": "12345"}'
+          repository_name: ${{ github.event.repository_name}}
+          version: ${{ github.event.version }}
+          input-data: input.json
