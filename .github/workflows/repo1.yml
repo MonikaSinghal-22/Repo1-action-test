@@ -30,7 +30,7 @@ jobs:
         id: generate_sbom 
         run: |
             echo '{"user": "monika", "data": "12345"}' > input.json
-            sbom_content = $(cat input.json)
+            sbom_content = $({"user": "monika", "data": "12345"})
             echo "::set-output name=sbom::$sbom_content"
         shell: bash
 
