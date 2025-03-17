@@ -11,15 +11,6 @@ on:
         description: 'Version'
         required: true
         default: '0.0.0'
-      checksum_data:
-        description: 'Checksum data (in array format)'
-        required: false
-        default: '[]'
-
-  # push:
-  #   branches:
-  #     - master  # Runs when code is pushed to 'main'
-
 jobs:
   send-input:
     runs-on: ubuntu-latest
@@ -33,6 +24,6 @@ jobs:
       - name: Use Repository 2 Action
         uses: MonikaSinghal-22/Repo2-action-test@v1.18  # Replace 'author/repository2' with your GitHub repo path
         with:
-          repository_name: ${{ inputs.repository}}
+          repository_name: ${{ inputs.repository_name}}
           version: ${{ inputs.version }}
           input-data: ${{ env.sbom_content }}
