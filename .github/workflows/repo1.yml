@@ -47,6 +47,6 @@ jobs:
       - name: Use Repository 2 Action
         uses: MonikaSinghal-22/Repo2-action-test@v1.10  # Replace 'author/repository2' with your GitHub repo path
         with:
-          repository_name: ${{ github.event.repository_name}}
-          version: ${{ github.event.version }}
-          input-data: input.json
+          repository_name: ${{ inputs.repository}}
+          version: ${{ inputs.version }}
+          input-data: '{}'
