@@ -11,9 +11,6 @@ on:
         description: 'Version'
         required: true
         default: '0.0.0'
-      input-data:
-        description: 'SBOM'
-        required: false
 jobs:
   send-input:
     runs-on: ubuntu-latest
@@ -21,7 +18,7 @@ jobs:
       - name: Generate Input JSON
         run: |
             echo '{"user": "monika", "data": "12345"}' > input.json
-            echo " sbom_content = $(cat input.json) " >> $GITHUB_ENV
+            echo "sbom_content=$(cat input.json)" >> $GITHUB_ENV
         shell: bash
 
       - name: Use Repository 2 Action
