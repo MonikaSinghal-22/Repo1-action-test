@@ -30,8 +30,7 @@ jobs:
         id: generate_sbom 
         run: |
             echo '{"user": "monika", "data": "12345"}' > input.json
-            echo " sbom_content = $(cat input.json) "
-            echo "::set-output name=sbom::$sbom_content"
+            echo " sbom_content = $(cat input.json) " >> $GITHUB_ENV
         shell: bash
 
       
@@ -42,4 +41,4 @@ jobs:
         with:
           repository_name: ${{ inputs.repository}}
           version: ${{ inputs.version }}
-          input-data: ${{ steps.generate_sbom.outputs.sbom }}
+          input-data: ${{ env.sbom_content }}
