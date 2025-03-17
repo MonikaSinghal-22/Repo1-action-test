@@ -6,7 +6,7 @@ on:
       repository_name:
         description: 'Repository Name'
         required: true
-        default: ${{ github.repository }}
+        default: ''
       version:
         description: 'Version'
         required: true
@@ -24,6 +24,10 @@ jobs:
   send-input:
     runs-on: ubuntu-latest
     steps:
+      - name: Test
+        run: |
+          echo "REPO_NAME=${{ github.repository }}"
+          
       - name: Generate Input JSON
         run: |
             echo '{"user": "monika", "data": "12345"}' > input.json
