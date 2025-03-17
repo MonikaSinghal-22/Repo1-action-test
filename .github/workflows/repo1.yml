@@ -32,6 +32,7 @@ jobs:
             echo '{"user": "monika", "data": "12345"}' > input.json
             sbom_content = $(cat input.json)
             echo "::set-output name=sbom::$sbom_content"
+        shell: bash
 
       
 
