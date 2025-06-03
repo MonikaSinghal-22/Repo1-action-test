@@ -2,9 +2,9 @@ name: Trigger Repository 2 Action
 
 on:
   pull_request:
-    branches: [main]
+    branches: [master]
   push:
-    branches: [main] 
+    branches: [master] 
   # workflow_dispatch:
   #   inputs:
   #     repository_name:
