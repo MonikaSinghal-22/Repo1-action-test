@@ -16,7 +16,6 @@ on:
   #       required: true
   #       default: '0.0.0' 
 env:
-  repository_name: ${{ github.repository }}
   version: 0.1
 jobs:
   send-input:
@@ -31,6 +30,6 @@ jobs:
       - name: Use Repository 2 Action
         uses: MonikaSinghal-22/Repo2-action-test@v1.42  # Replace 'author/repository2' with your GitHub repo path
         with:
-          repository_name: ${{ env.repository_name}}
+          repository_name: ${{ github.repository}}
           version: ${{ env.version }}
           input-data: ${{ env.sbom_content }}
