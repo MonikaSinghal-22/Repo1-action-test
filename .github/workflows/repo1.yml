@@ -27,7 +27,7 @@ jobs:
             echo "sbom_content=$(cat input.json)" >> $GITHUB_ENV
         shell: bash
 
-      - name: Use Repository 2 Action
+      - name: Use Repository 2 Action 
         uses: MonikaSinghal-22/Repo2-action-test@v1.43  # Replace 'author/repository2' with your GitHub repo path
         with:
           repository_name: ${{ github.repository}}
