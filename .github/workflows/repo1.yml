@@ -6,7 +6,6 @@ on:
     branches: [master]
   push:
     branches: [master] 
-  workflow_dispatch:
   #   inputs:
   #     repository_name:
   #       description: 'Repository Name'
