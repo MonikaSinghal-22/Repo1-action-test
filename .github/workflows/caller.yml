@@ -3,13 +3,11 @@ name: Caller Repo
 on:
     workflow_dispatch:
 
-env:
-    version: 0.1
-
 jobs:
     collect-data:
         runs-on: ubuntu-latest
         outputs:
+            version: 0.1
             sbom: ${{ steps.set-json.outputs.sbom }}
         steps:
             - name: Checkout Repository
@@ -27,5 +25,5 @@ jobs:
         with:
             repository_name: ${{ github.repository}}
             user: ${{ github.actor }}
-            version: ${{ env.version }}
+            version: ${{ needs.collect-data.outputs.version }}
             input-data: ${{ needs.collect-data.outputs.sbom }}
