@@ -4,15 +4,11 @@ on:
     workflow_dispatch:
 
 jobs:
-    collect-metadata:
+    collect-data:
         runs-on: ubuntu-latest
         outputs:
             repository_name: ${{ github.repository }}
             version: 0.1
-            
-    collect-data:
-        runs-on: ubuntu-latest
-        outputs:
             sbom: ${{ steps.set-json.outputs.sbom_content }}
         steps:
             - name: Checkout Repository
@@ -25,10 +21,10 @@ jobs:
                 echo "sbom_content=$(cat input.json)" >> $GITHUB_OUTPUT
               shell: bash
     send-data:
-        needs: [collect-metadata, collect-data]
+        needs: [collect-data]
         uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/api_workflow.yml@master
         with:
-            repository_name: ${{ needs.collect-metadata.outputs.repository_name || github.repository}}
+            repository_name: ${{ needs.collect-data.outputs.repository_name || github.repository}}
             user: ${{ github.actor }}
-            version: ${{ needs.collect-metadata.outputs.version }}
+            version: ${{ needs.collect-data.outputs.version }}
             input-data: ${{ needs.collect-data.outputs.sbom }}
