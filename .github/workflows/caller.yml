@@ -7,6 +7,7 @@ jobs:
     collect-data:
         runs-on: ubuntu-latest
         outputs:
+            repository_name: ${{ github.repository }}
             version: 0.1
             sbom: ${{ steps.set-json.outputs.sbom_content }}
         steps:
@@ -23,7 +24,7 @@ jobs:
         needs: [collect-data]
         uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/api_workflow.yml@master
         with:
-            repository_name: ${{ github.repository}}
+            repository_name: ${{ needs.collect-data.outputs.repository_name || github.repository}}
             user: ${{ github.actor }}
             version: ${{ needs.collect-data.outputs.version }}
             input-data: ${{ needs.collect-data.outputs.sbom }}
