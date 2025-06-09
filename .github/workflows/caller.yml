@@ -11,13 +11,17 @@ on:
           required: false
           type: string
           default: '20'
+        release-version:
+          required: false
+          type: string
+          default: '0.0.0'
 
 jobs:
     collect-data:
         runs-on: ubuntu-latest
         outputs:
             repository_name: ${{ github.repository }}
-            version: 0.1
+            version: ${{ inputs.release-version || '0.0.1'}}
             release_type: Manual
             checksum_data: ${{ steps.set-checksum-data.outputs.checksum_data }}
             user: ${{ github.actor }}
