@@ -43,7 +43,7 @@ jobs:
 
             - name: View github output
               run: |
-                echo "{{ $GITHUB_OUTPUT }}"
+                echo "${{ steps.set-checksum-data.outputs.checksum_data}}"
               shell: bash
     send-data:
         needs: [collect-data]
