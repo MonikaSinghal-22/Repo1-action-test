@@ -39,7 +39,7 @@ jobs:
               id: set-checksum-data
               run: |
                 echo 'checksum_data=[{"sha-256":"vxshdcfsgh", "file_path":"/path"},\
-                {"sha-256":"vxshdcfsgh", "file_path":"/path"}]'' >> $GITHUB_OUTPUT
+                {"sha-256":"vxshdcfsgh", "file_path":"/path"}]' >> $GITHUB_OUTPUT
               shell: bash
 
             - name: Generate Input JSON
