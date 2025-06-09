@@ -46,10 +46,19 @@ jobs:
                 echo "sbom_content=$(cat input.json)" >> $GITHUB_OUTPUT
               shell: bash
 
+            - name: Install node
+              uses: actions/setup-node@v4
+              with:
+                node-version: ${{ inputs.node-version}}
+
             - name: View github output
               run: |
                 echo "${{ steps.set-checksum-data.outputs.checksum_data}}"
               shell: bash
+
+            - name: Test Snyk install
+              run: |
+               npm install -g snyk
     send-data:
         needs: [collect-data]
         uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/api_workflow.yml@master
