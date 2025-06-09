@@ -2,6 +2,15 @@ name: Caller Repo
 
 on:
     workflow_dispatch:
+      inputs:
+        python-version:
+          required: false
+          type: string
+          default: '3.11'
+        node-version:
+          required: false
+          type: string
+          default: '20'
 
 jobs:
     collect-data:
@@ -9,10 +18,24 @@ jobs:
         outputs:
             repository_name: ${{ github.repository }}
             version: 0.1
+            release_type: Manual
+            checksum_data: ${{ steps.set-checksum-data.outputs.checksum_data }}
+            user: ${{ github.actor }}
+            team_name: test
+            organization: test
             sbom: ${{ steps.set-json.outputs.sbom_content }}
         steps:
             - name: Checkout Repository
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
+
+            - name: Set Checksum Data
+              id: set-checksum-data
+              run: |
+                echo "checksum_data = [ 
+                        {'sha-256':'vxshdcfsgh', 'file_path':"/path"}, 
+                        {'sha-256':'vxshdcfsgh', 'file_path':"/path"} 
+                      ]" >> $GITHUB_OUTPUT
+              shell: bash
 
             - name: Generate Input JSON
               id: set-json
@@ -24,7 +47,11 @@ jobs:
         needs: [collect-data]
         uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/api_workflow.yml@master
         with:
-            repository_name: ${{ needs.collect-data.outputs.repository_name || github.repository}}
-            user: ${{ github.actor }}
-            version: ${{ needs.collect-data.outputs.version }}
+            repository_name: ${{ needs.collect-data.outputs.repository_name}}
+            version: ${{needs.collect-data.outputs.version}}
+            release_type: ${{needs.collect-data.outputs.release_type}}
+            checksum_data: ${{needs.collect-data.outputs.checksum_data}}
+            user: ${{ needs.collect-data.outputs.user }}
+            team_name: ${{ needs.collect-data.outputs.team_name }}
+            organization: ${{ needs.collect-data.outputs.organization}}
             input-data: ${{ needs.collect-data.outputs.sbom }}

@@ -1,36 +1,36 @@
-name: Trigger Repository 2 Action
+# name: Trigger Repository 2 Action
 
-on:
-  workflow_dispatch:
-  pull_request:
-    branches: [master]
-  push:
-    branches: [master] 
-  #   inputs:
-  #     repository_name:
-  #       description: 'Repository Name'
-  #       required: false
-  #       default: '${{ github.repository }}'
-  #     version:
-  #       description: 'Version'
-  #       required: true
-  #       default: '0.0.0' 
-env:
-  version: 0.1
-jobs:
-  send-input:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Generate Input JSON
-        run: |
-            echo '{"user": "monika", "data": "12345"}' > input.json
-            echo "sbom_content=$(cat input.json)" >> $GITHUB_ENV
-        shell: bash
+# on:
+#   workflow_dispatch:
+#   pull_request:
+#     branches: [master]
+#   push:
+#     branches: [master] 
+#   #   inputs:
+#   #     repository_name:
+#   #       description: 'Repository Name'
+#   #       required: false
+#   #       default: '${{ github.repository }}'
+#   #     version:
+#   #       description: 'Version'
+#   #       required: true
+#   #       default: '0.0.0' 
+# env:
+#   version: 0.1
+# jobs:
+#   send-input:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Generate Input JSON
+#         run: |
+#             echo '{"user": "monika", "data": "12345"}' > input.json
+#             echo "sbom_content=$(cat input.json)" >> $GITHUB_ENV
+#         shell: bash
 
-      - name: Use Repository 2 Action 
-        uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/api_workflow.yaml@master  # Replace 'author/repository2' with your GitHub repo path
-        with:
-          repository_name: ${{ github.repository}}
-          user: ${{ github.actor }}
-          version: ${{ github.ref }}
-          input-data: ${{ env.sbom_content }}
+#       - name: Use Repository 2 Action 
+#         uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/api_workflow.yml@master # Replace 'author/repository2' with your GitHub repo path
+#         with:
+#           repository_name: ${{ github.repository}}
+#           user: ${{ github.actor }}
+#           version: ${{ github.ref }}
+#           input-data: ${{ env.sbom_content }}
