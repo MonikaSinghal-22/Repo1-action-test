@@ -40,6 +40,11 @@ jobs:
                 echo '{"data1": "123", "data2": "456"}' > input.json
                 echo "sbom_content=$(cat input.json)" >> $GITHUB_OUTPUT
               shell: bash
+
+            - name: View github output
+              run: |
+                echo "{{ $GITHUB_OUTPUT }}"
+              shell: bash
     send-data:
         needs: [collect-data]
         uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/api_workflow.yml@master
