@@ -15,6 +15,9 @@ on:
           required: false
           type: string
           default: '0.0.0'
+    push:
+      branches:
+        fix/update_url
 
 jobs:
     collect-data:
