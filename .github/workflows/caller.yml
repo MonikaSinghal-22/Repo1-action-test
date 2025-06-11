@@ -54,9 +54,7 @@ jobs:
             - name: Encode SBOM and set as output
               id: encode-sbom
               run: |
-                echo '{"data1": "123", "data2": "456"}' > input.json
-                input=$(cat input.json)
-                encoded=$(echo "$input" | base64 -w 0)
+                encoded=$(echo "{'data1': '123', 'data2': '456'}" | base64 -w 0)
                 echo "sbom_encoded=$encoded" >> $GITHUB_OUTPUT
               shell: bash
 
