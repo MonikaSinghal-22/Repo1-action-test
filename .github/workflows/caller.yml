@@ -19,13 +19,16 @@ on:
       branches:
         fix/update_url
 
+env:
+  release_type: Manual
+
 jobs:
     collect-data:
         runs-on: ubuntu-latest
         outputs:
             repository_name: ${{ github.repository }}
             version: ${{ inputs.release-version || '0.0.1'}}
-            release_type: Manual
+            
             checksum_data: ${{ steps.set-checksum-data.outputs.checksum_data }}
             user: ${{ github.actor }}
             team_name: test
@@ -68,7 +71,7 @@ jobs:
         with:
             repository_name: ${{ needs.collect-data.outputs.repository_name}}
             version: ${{needs.collect-data.outputs.version}}
-            release_type: ${{needs.collect-data.outputs.release_type}}
+            release_type: ${{env.release_type}}
             checksum_data: ${{needs.collect-data.outputs.checksum_data}}
             user: ${{ needs.collect-data.outputs.user }}
             team_name: ${{ needs.collect-data.outputs.team_name }}
