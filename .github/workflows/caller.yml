@@ -69,7 +69,7 @@ jobs:
                 echo "${{ steps.set-checksum-data.outputs.checksum_data}}"
               shell: bash
 
-            - name: Test Snyk install
+            - name: Test Snyk install 
               run: |
                npm install -g snyk
     send-data:
