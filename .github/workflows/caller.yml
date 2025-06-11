@@ -19,8 +19,7 @@ on:
       branches:
         fix/update_url
 
-env:
-  release_type: Manual
+
 
 jobs:
     collect-data:
@@ -28,7 +27,7 @@ jobs:
         outputs:
             repository_name: ${{ github.repository }}
             version: ${{ inputs.release-version || '0.0.1'}}
-            
+            release_type: Manual
             checksum_data: ${{ steps.set-checksum-data.outputs.checksum_data }}
             user: ${{ github.actor }}
             team_name: test
@@ -52,6 +51,15 @@ jobs:
                 echo "sbom_content=$(cat input.json)" >> $GITHUB_OUTPUT
               shell: bash
 
+            - name: Encode SBOM and set as output
+              id: encode-sbom
+              run: |
+                echo '{"data1": "123", "data2": "456"}' > input.json
+                echo "input=$(cat input.json)" >> GITHUB_ENV
+                encoded=$(echo "${{ env.input }}" | base64 -w 0)
+                echo "sbom_encoded=$encoded" >> $GITHUB_OUTPUT
+              shell: bash
+
             - name: Install node
               uses: actions/setup-node@v4
               with:
@@ -71,7 +79,7 @@ jobs:
         with:
             repository_name: ${{ needs.collect-data.outputs.repository_name}}
             version: ${{needs.collect-data.outputs.version}}
-            release_type: ${{env.release_type}}
+            release_type: ${{needs.collect-data.outputs.release_type}}
             checksum_data: ${{needs.collect-data.outputs.checksum_data}}
             user: ${{ needs.collect-data.outputs.user }}
             team_name: ${{ needs.collect-data.outputs.team_name }}
