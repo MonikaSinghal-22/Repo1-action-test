@@ -74,7 +74,7 @@ jobs:
                npm install -g snyk
     send-data:
         needs: [collect-data]
-        uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/api_workflow.yml@master
+        uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/container_workflow.yml@master
         with:
             repository_name: ${{ needs.collect-data.outputs.repository_name}}
             version: ${{needs.collect-data.outputs.version}}
