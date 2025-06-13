@@ -31,16 +31,16 @@ jobs:
             BRANCH="${GITHUB_REF##*/}" 
             case "$BRANCH" in
                 master|main)
-                echo "TYPE=production" >> "$GITHUB_OUTPUT"
+                TYPE=production
                 ;;
                 dev|develop)
-                echo "TYPE=development" >> "$GITHUB_OUTPUT"
+                TYPE=development
                 ;;
                 feature/*)
-                echo "TYPE=feature" >> "$GITHUB_OUTPUT"
+                TYPE=feature
                 ;;
                 *)
-                echo "TYPE=Manual" >> "$GITHUB_OUTPUT"
+                TYPE=Manual
                 ;;
             esac
             echo "$TYPE"
