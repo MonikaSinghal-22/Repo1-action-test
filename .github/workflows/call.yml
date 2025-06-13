@@ -43,6 +43,7 @@ jobs:
                 echo "RELEASE_TYPE=Manual" >> "$GITHUB_OUTPUT"
                 ;;
             esac
+            echo "$TYPE"
             echo "release_type=$TYPE" >> "$GITHUB_OUTPUT"
 
         - name: Set Version
@@ -69,7 +70,7 @@ jobs:
         - name: Build checksum array
           id: build_checksum
           run: |
-            echo "checksum_data=$(car sbom_checksum.json)" >> GITHUB_OUTPUT
+            echo "checksum_data=$(cat sbom_checksum.json)" >> GITHUB_OUTPUT
           shell: bash
 
         - name: Generate Input JSON
@@ -86,7 +87,7 @@ jobs:
             version: ${{needs.collect-data.outputs.version}}
             release_type: ${{needs.collect-data.outputs.release_type}}
             checksum_data: ${{needs.collect-data.outputs.checksum_data}}
-            user: ${{ needs.collect-data.outputs.user }}
-            team_name: ${{ needs.collect-data.outputs.team_name }}
-            organization: ${{ needs.collect-data.outputs.organization}}
+            user: ${{ github.actor }}
+            team_name: team_test
+            organization: team_org
             input-data: ${{ needs.collect-data.outputs.sbom }}
