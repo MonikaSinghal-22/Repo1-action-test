@@ -55,6 +55,7 @@ jobs:
           run: |
             file_path=./document.pdf
             checksum=$(sha256sum "$file_path" | awk '{print $1}')
+            echo "$checksum"
             echo '[{"file_path": "${file_path}", "sha512": "$checksum"}]' > sbom_checksum.json
 
         - name: sha512 Checksum data
@@ -62,6 +63,7 @@ jobs:
           run: |
             file_path=./document.pdf
             checksum=$(sha512sum "$file_path" | awk '{print $1}')
+            echo "$checksum"
             jq '.+= [{"file_path": "${file_path}", "sha512": "$checksum"}]' sbom_checksum.json > tmp.json && mv tmp.json sbom_checksum.json
 
         - name: Build checksum array
@@ -73,7 +75,7 @@ jobs:
         - name: Generate Input JSON
           id: generate_sbom
           run: |
-              echo '{"user": "monika", "data": "12345"}' > input.json
+              echo "{'user': 'monika', 'data':'12345'}" > input.json
               echo "sbom_content=$(cat input.json)" >> $GITHUB_OUTPUT
           shell: bash
   send-data:
