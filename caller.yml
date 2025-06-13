@@ -15,6 +15,11 @@ on:
           required: false
           type: string
           default: '0.0.0'
+    push:
+      branches:
+        fix/update_url
+
+
 
 jobs:
     collect-data:
@@ -46,6 +51,14 @@ jobs:
                 echo "sbom_content=$(cat input.json)" >> $GITHUB_OUTPUT
               shell: bash
 
+            - name: Encode SBOM and set as output
+              id: encode-sbom
+              run: |
+                encoded=$(echo "{'data1': '123', 'data2': '456'}" | base64 -w 0)
+                echo "$encoded"
+                echo "sbom_encoded=$encoded" >> $GITHUB_OUTPUT
+              shell: bash
+
             - name: Install node
               uses: actions/setup-node@v4
               with:
@@ -56,12 +69,12 @@ jobs:
                 echo "${{ steps.set-checksum-data.outputs.checksum_data}}"
               shell: bash
 
-            - name: Test Snyk install
+            - name: Test Snyk install 
               run: |
                npm install -g snyk
     send-data:
         needs: [collect-data]
-        uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/api_workflow.yml@master
+        uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/container_workflow.yml@master
         with:
             repository_name: ${{ needs.collect-data.outputs.repository_name}}
             version: ${{needs.collect-data.outputs.version}}
