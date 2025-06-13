@@ -72,7 +72,12 @@ jobs:
           run: |
             checksum_data=$(cat sbom_checksum.json)
             echo "$checksum_data"
-            echo "checksum_data=$checksum_data" >> $GITHUB_OUTPUT
+            # Properly write multi-line or complex data to $GITHUB_OUTPUT
+            {
+              echo 'checksum_data<<EOF'
+              echo "$checksum_data"
+              echo 'EOF'
+            } >> "$GITHUB_OUTPUT"
           shell: bash
 
 
