@@ -55,14 +55,14 @@ jobs:
           run: |
             file_path=./document.pdf
             checksum=$(sha256sum "$file_path" | awk '{print $1}')
-            echo "[{'file_path': '${file_path}', 'sha512': '$checksum'}]" > sbom_checksum.json
+            echo '[{"file_path": "${file_path}", "sha512": "$checksum"}]' > sbom_checksum.json
 
         - name: sha512 Checksum data
           id: sha512
           run: |
             file_path=./document.pdf
             checksum=$(sha512sum "$file_path" | awk '{print $1}')
-            jq ".+= [{'file_path': '${file_path}', 'sha512': '$checksum'}]" sbom_checksum.json > tmp.json && mv tmp.json sbom_checksum.json
+            jq '.+= [{"file_path": "${file_path}", "sha512": "$checksum"}]' sbom_checksum.json > tmp.json && mv tmp.json sbom_checksum.json
 
         - name: Build checksum array
           id: build_checksum
