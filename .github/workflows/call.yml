@@ -95,7 +95,7 @@ jobs:
             } >> "$GITHUB_OUTPUT"
   send-data:
         needs: [collect-data]
-        uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/container_workflow.yml@master
+        uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/container_workflow.yml@v1.43
         with:
             repository_name: ${{ github.repository }}
             version: ${{needs.collect-data.outputs.version}}
