@@ -70,7 +70,9 @@ jobs:
         - name: Build checksum array
           id: build_checksum
           run: |
+            echo "$(cat sbom_checksum.json)"
             echo "checksum_data=$(cat sbom_checksum.json)" >> GITHUB_OUTPUT
+            echo "$checksum_data"
           shell: bash
 
         - name: Generate Input JSON
