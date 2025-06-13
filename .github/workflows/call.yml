@@ -2,6 +2,11 @@ name: Trigger
 
 on:
     workflow_dispatch:
+      inputs:
+        release_version:
+          required: false
+          type: string
+          default: '0.0.0'
     push:
         branches:
             fix/update_url
@@ -11,7 +16,7 @@ jobs:
   collect-data:
     runs-on: ubuntu-latest
     outputs:
-        version: ${{ steps.set_version.outputs.version }}
+        version: ${{ inputs.release_version || steps.set_version.outputs.version }}
         release_type: ${{ steps.set_release_type.outputs.release_type }}
         checksum_data: ${{ steps.build_checksum.outputs.checksum_data }}
         sbom: ${{ steps.generate_sbom.outputs.sbom }}
