@@ -82,7 +82,7 @@ jobs:
         - name: Generate Input JSON
           id: generate_sbom
           run: |
-              echo "{'user': 'monika', 'data':'12345'}" > input.json
+              echo "{\"user\": \"monika\", \"data\":\"12345\"}" > input.json
               echo "sbom_content=$(cat input.json)" >> $GITHUB_OUTPUT
           shell: bash
   send-data:
