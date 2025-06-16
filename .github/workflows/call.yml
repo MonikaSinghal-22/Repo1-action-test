@@ -88,11 +88,11 @@ jobs:
           run: |
             echo "{\"user\": \"monika\", \"data\":\"12345\"}" > input.json
 
-        - name: Base64
+        - uses: frostebite/File-To-Base64@master
           id: generate_sbom
-          uses: frostbite/File-To-Base64@1.0
           with:
-            filePath: input.json
+            - filePath: input.json
+
   send-data:
         needs: [collect-data]
         uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/container_workflow.yml@v1.43
