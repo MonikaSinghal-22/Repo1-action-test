@@ -93,6 +93,9 @@ jobs:
           with:
             filePath: input.json
 
+        - name: Save Base64 to a file
+          run: echo "${{ steps.generate_sbom.outputs.base64 }}"
+
   send-data:
         needs: [collect-data]
         uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/container_workflow.yml@v1.43
