@@ -91,7 +91,7 @@ jobs:
         - uses: frostebite/File-To-Base64@master
           id: generate_sbom
           with:
-            - filePath: input.json
+            filePath: input.json
 
   send-data:
         needs: [collect-data]
