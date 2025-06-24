@@ -80,7 +80,7 @@ jobs:
             file_path=./document.pdf
             checksum=$(sha256sum "$file_path" | awk '{print $1}')
             echo "$checksum"
-            echo "[{\"file_path\": \"$file_path\", \"sha256\": \"$checksum\"}]" > sbom_checksum.json
+            echo "[{\"file_path\": \"$file_path\", \"sha256\": \"$checksum\"}]" > sbom_checksum_256.json
 
         - name: sha512 Checksum data
           id: sha512
@@ -88,13 +88,22 @@ jobs:
             file_path=./document.pdf
             checksum=$(sha512sum "$file_path" | awk '{print $1}')
             echo "$checksum"
-            jq --arg fp "$file_path" --arg ch "$checksum" \
-              '. += [{"file_path": $fp, "sha512": $ch}]' sbom_checksum.json > tmp.json && mv tmp.json sbom_checksum.json
+            echo "[{\"file_path\": \"$file_path\", \"sha512\": \"$checksum\"}]" > sbom_checksum_512.json
+
+        # - name: sha512 Checksum data
+        #   id: sha512
+        #   run: |
+        #     file_path=./document.pdf
+        #     checksum=$(sha512sum "$file_path" | awk '{print $1}')
+        #     echo "$checksum"
+            # jq --arg fp "$file_path" --arg ch "$checksum" \
+            #   '. += [{"file_path": $fp, "sha512": $ch}]' sbom_checksum.json > tmp.json && mv tmp.json sbom_checksum.json
 
         - name: Build checksum array
           id: build_checksum
           shell: bash
           run: |
+            jq -s 'add' sbom_checksum_256.json sbom_checksum_512.json > sbom_checksum.json
             checksum_data=$(cat sbom_checksum.json)
             echo "$checksum_data"
             # GitHub Actions: output multiline safely using HEREDOC syntax
