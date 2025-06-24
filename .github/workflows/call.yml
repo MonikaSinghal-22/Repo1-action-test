@@ -33,7 +33,8 @@ jobs:
         
         - name: Set Repository Name
           id: set_repository_name
-          run: echo "repository_name=${{ github.repository }}" >> $GITHUB_OUTPUT
+          run: echo "repository_name=$(basename '${{ github.repository }}')" >> $GITHUB_OUTPUT
+          #run: echo "repository_name=${{ github.repository }}" >> $GITHUB_OUTPUT
 
         - name: Set Release Type
           id: set_release_type
