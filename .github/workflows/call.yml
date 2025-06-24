@@ -19,6 +19,7 @@ jobs:
         repository_name: ${{ steps.set_repository_name.outputs.repository_name }}
         version: ${{ inputs.release_version || steps.set_version.outputs.version }}
         release_type: ${{ steps.set_release_type.outputs.release_type }}
+        organization: ${{ steps.set_organization.outputs.organization }}
         checksum_data: ${{ steps.build_checksum.outputs.checksum_data }}
         sbom: ${{ steps.generate_sbom.outputs.base64 }}
     steps:
@@ -42,34 +43,34 @@ jobs:
         - name: Set Release Type
           id: set_release_type
           run: |
-            tag="${GITHUB_REF#refs/tags/}"
-            if [[ "$tag" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-              echo "release_type=patch" >> $GITHUB_OUTPUT
-            elif [[ "$tag" =~ ^[0-9]+\.[0-9]+\.0$ ]]; then
-              echo "release_type=minor" >> $GITHUB_OUTPUT
-            elif [[ "$tag" =~ ^[0-9]+\.0\.0$ ]]; then
-              echo "release_type=major" >> $GITHUB_OUTPUT
-            elif [[ "$tag" == *"-beta"* ]]; then
-              echo "release_type=beta" >> $GITHUB_OUTPUT
+            BRANCH="${GITHUB_REF##*/}" 
+            case "$BRANCH" in
+                master|main)
+                TYPE=production
+                ;;
+                dev|develop)
+                TYPE=development
+                ;;
+                feature/*)
+                TYPE=feature
+                ;;
+                *)
+                TYPE=Manual
+                ;;
+            esac
+            echo "$TYPE"
+            echo "release_type=$TYPE" >> "$GITHUB_OUTPUT"
+
+        - name: Set Organization
+          id: set_organization
+          run: |
+            if [[ "${{ github.environment }}" == "stable" ]]; then
+              echo "organization=stable" >> $GITHUB_OUTPUT
+            elif [[ "${{ github.environment }}" == "sandbox" ]]; then
+              echo "organization=sandbox" >> $GITHUB_OUTPUT
+            else
+              echo "organization=dev" >> $GITHUB_OUTPUT
             fi
-          # run: |
-          #   BRANCH="${GITHUB_REF##*/}" 
-          #   case "$BRANCH" in
-          #       master|main)
-          #       TYPE=production
-          #       ;;
-          #       dev|develop)
-          #       TYPE=development
-          #       ;;
-          #       feature/*)
-          #       TYPE=feature
-          #       ;;
-          #       *)
-          #       TYPE=Manual
-          #       ;;
-          #   esac
-          #   echo "$TYPE"
-          #   echo "release_type=$TYPE" >> "$GITHUB_OUTPUT"
 
         - name: Set Version
           id: set_version
@@ -126,5 +127,5 @@ jobs:
             checksum_data: ${{needs.collect-data.outputs.checksum_data}}
             user: ${{ github.actor }}
             team_name: team_test
-            organization: team_org
+            organization: ${{needs.collect-data.outputs.organization}}
             input-data: ${{ needs.collect-data.outputs.sbom }}
