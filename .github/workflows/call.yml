@@ -67,13 +67,7 @@ jobs:
         - name: Set Organization
           id: set_organization
           run: |
-            if [[ "${{ github.environment }}" == "stable" ]]; then
-              echo "organization=stable" >> $GITHUB_OUTPUT
-            elif [[ "${{ github.environment }}" == "sandbox" ]]; then
-              echo "organization=sandbox" >> $GITHUB_OUTPUT
-            else
-              echo "organization=dev" >> $GITHUB_OUTPUT
-            fi
+           echo "organization=${{vars.VALUE_STREAM}}"
 
         - name: Set Version
           id: set_version
