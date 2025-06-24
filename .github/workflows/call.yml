@@ -67,7 +67,7 @@ jobs:
         - name: Set Organization
           id: set_organization
           run: |
-           echo "organization=${{vars.VALUE_STREAM}}"
+           echo "organization=${{vars.VALUE_STREAM}}" >> $GITHUB_OUTPUT
 
         - name: Set Version
           id: set_version
