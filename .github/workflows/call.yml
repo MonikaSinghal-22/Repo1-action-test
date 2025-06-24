@@ -36,26 +36,40 @@ jobs:
           run: echo "repository_name=$(basename '${{ github.repository }}')" >> $GITHUB_OUTPUT
           #run: echo "repository_name=${{ github.repository }}" >> $GITHUB_OUTPUT
 
+        - name: View GITHUB_REF
+          run: echo ${GITHUB_REF}
+
         - name: Set Release Type
           id: set_release_type
           run: |
-            BRANCH="${GITHUB_REF##*/}" 
-            case "$BRANCH" in
-                master|main)
-                TYPE=production
-                ;;
-                dev|develop)
-                TYPE=development
-                ;;
-                feature/*)
-                TYPE=feature
-                ;;
-                *)
-                TYPE=Manual
-                ;;
-            esac
-            echo "$TYPE"
-            echo "release_type=$TYPE" >> "$GITHUB_OUTPUT"
+            tag="${GITHUB_REF#refs/tags/}"
+            if [[ "$tag" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "release_type=patch" >> $GITHUB_OUTPUT
+            elif [[ "$tag" =~ ^[0-9]+\.[0-9]+\.0$ ]]; then
+              echo "release_type=minor" >> $GITHUB_OUTPUT
+            elif [[ "$tag" =~ ^[0-9]+\.0\.0$ ]]; then
+              echo "release_type=major" >> $GITHUB_OUTPUT
+            elif [[ "$tag" == *"-beta"* ]]; then
+              echo "release_type=beta" >> $GITHUB_OUTPUT
+            fi
+          # run: |
+          #   BRANCH="${GITHUB_REF##*/}" 
+          #   case "$BRANCH" in
+          #       master|main)
+          #       TYPE=production
+          #       ;;
+          #       dev|develop)
+          #       TYPE=development
+          #       ;;
+          #       feature/*)
+          #       TYPE=feature
+          #       ;;
+          #       *)
+          #       TYPE=Manual
+          #       ;;
+          #   esac
+          #   echo "$TYPE"
+          #   echo "release_type=$TYPE" >> "$GITHUB_OUTPUT"
 
         - name: Set Version
           id: set_version
