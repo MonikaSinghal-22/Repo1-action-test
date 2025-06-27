@@ -123,7 +123,7 @@ jobs:
         uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/container_workflow.yml@v1.43
         with:
             repository_name: ${{needs.collect-data.outputs.repository_name}}
-            version: ${{needs.collect-data.outputs.version}}
+            #version: ${{needs.collect-data.outputs.version}}
             release_type: ${{needs.collect-data.outputs.release_type}}
             #checksum_data: ${{needs.collect-data.outputs.checksum_data}}
             user: ${{ github.actor }}
