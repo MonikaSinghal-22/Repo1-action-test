@@ -125,7 +125,7 @@ jobs:
             repository_name: ${{needs.collect-data.outputs.repository_name}}
             version: ${{needs.collect-data.outputs.version}}
             release_type: ${{needs.collect-data.outputs.release_type}}
-            checksum_data: ${{needs.collect-data.outputs.checksum_data}}
+            #checksum_data: ${{needs.collect-data.outputs.checksum_data}}
             user: ${{ github.actor }}
             team_name: team_test
             organization: ${{needs.collect-data.outputs.organization}}
