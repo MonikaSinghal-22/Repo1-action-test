@@ -21,7 +21,7 @@ jobs:
         release_type: ${{ steps.set_release_type.outputs.release_type }}
         organization: ${{ steps.set_organization.outputs.organization }}
         checksum_data: ${{ steps.build_checksum.outputs.checksum_data }}
-        sbom: ${{ steps.generate_sbom.outputs.base64 }}
+        sbom: ${{ steps.generate_sbom.outputs.SBOM }}
     steps:
         - name: Checkout Repository
           uses: actions/checkout@v4
@@ -112,16 +112,11 @@ jobs:
             echo "EOF" >> $GITHUB_OUTPUT
 
         - name: Generate Input JSON
+          id: generate_sbom
           run: |
             echo "{\"user\": \"monika\", \"data\":\"12345\"}" > input.json
-
-        - uses: frostebite/File-To-Base64@master
-          id: generate_sbom
-          with:
-            filePath: input.json
-
-        - name: Save Base64 to a file
-          run: echo "${{ steps.generate_sbom.outputs.base64 }}"
+            encoded_json=$(base64 -w 0 input.json)
+            echo "SBOM=$encoded_json" >> $GITHUB_OUTPUT
 
   send-data:
         needs: [collect-data]
