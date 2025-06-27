@@ -123,27 +123,15 @@ jobs:
         - name: Save Base64 to a file
           run: echo "${{ steps.generate_sbom.outputs.base64 }}"
 
-        - name: trigger
-          uses: MonikaSinghal-22/Repo2-action-test@v1.43
-          with:
-              repository_name: ${{steps.set_repository_name.outputs.repository_name}}
-              version: ${{steps.set_version.outputs.version}}
-              release_type: ${{steps.set_release_type.outputs.release_type}}
-              checksum_data: ${{steps.build_checksum.outputs.checksum_data}}
-              user: ${{ github.actor }}
-              team_name: team_test
-              organization: ${{steps.set_organization.outputs.organization}}
-              input-data: ${{ steps.generate_sbom.outputs.sbom }}
-
-  # send-data:
-  #       needs: [collect-data]
-  #       uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/container_workflow.yml@v1.43
-  #       with:
-  #           repository_name: ${{needs.collect-data.outputs.repository_name}}
-  #           version: ${{needs.collect-data.outputs.version}}
-  #           release_type: ${{needs.collect-data.outputs.release_type}}
-  #           checksum_data: ${{needs.collect-data.outputs.checksum_data}}
-  #           user: ${{ github.actor }}
-  #           team_name: team_test
-  #           organization: ${{needs.collect-data.outputs.organization}}
-  #           input-data: ${{ needs.collect-data.outputs.sbom }}
+  send-data:
+        needs: [collect-data]
+        uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/container_workflow.yml@v1.43
+        with:
+            repository_name: ${{needs.collect-data.outputs.repository_name}}
+            version: ${{needs.collect-data.outputs.version}}
+            release_type: ${{needs.collect-data.outputs.release_type}}
+            checksum_data: ${{needs.collect-data.outputs.checksum_data}}
+            user: ${{ github.actor }}
+            team_name: team_test
+            organization: ${{needs.collect-data.outputs.organization}}
+            input-data: ${{ needs.collect-data.outputs.sbom }}
