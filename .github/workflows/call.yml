@@ -21,7 +21,7 @@ jobs:
         release_type: ${{ steps.set_release_type.outputs.release_type }}
         organization: ${{ steps.set_organization.outputs.organization }}
         checksum_data: ${{ steps.build_checksum.outputs.checksum_data }}
-        sbom: ${{ steps.generate_sbom.outputs.SBOM }}
+        #sbom: ${{ steps.generate_sbom.outputs.SBOM }}
     steps:
         - name: Checkout Repository
           uses: actions/checkout@v4
@@ -118,15 +118,21 @@ jobs:
             encoded_json=$(base64 -w 0 input.json)
             echo "SBOM=$encoded_json" >> $GITHUB_OUTPUT
 
+        - name: Upload SBOM Artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: input-json
+            path: input.json
+
   send-data:
         needs: [collect-data]
         uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/container_workflow.yml@v1.43
         with:
             repository_name: ${{needs.collect-data.outputs.repository_name}}
-            #version: ${{needs.collect-data.outputs.version}}
+            version: ${{needs.collect-data.outputs.version}}
             release_type: ${{needs.collect-data.outputs.release_type}}
             #checksum_data: ${{needs.collect-data.outputs.checksum_data}}
             user: ${{ github.actor }}
             team_name: team_test
             organization: ${{needs.collect-data.outputs.organization}}
-            input-data: ${{ needs.collect-data.outputs.sbom }}
+            #input-data: ${{ needs.collect-data.outputs.sbom }}
