@@ -118,11 +118,11 @@ jobs:
             encoded_json=$(base64 -w 0 input.json)
             echo "SBOM=$encoded_json" >> $GITHUB_OUTPUT
 
-        - name: Upload SBOM Artifact
-          uses: actions/upload-artifact@v4
-          with:
-            name: input-json
-            path: input.json
+        # - name: Upload SBOM Artifact
+        #   uses: actions/upload-artifact@v4
+        #   with:
+        #     name: input-json
+        #     path: input.json
 
   send-data:
         needs: [collect-data]
