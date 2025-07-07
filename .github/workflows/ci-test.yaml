@@ -13,3 +13,13 @@ jobs:
         steps:
             - name: Test
               run: echo "hello" 
+
+            - uses: actions/checkout@v4
+
+            - name: SBOM
+              if: ${{ inputs.enable_sbom }}
+              run: echo "enable sbom"
+
+            - name: V
+              if: ${{ inputs.enable_v}}
+              run: echo "enable v"
