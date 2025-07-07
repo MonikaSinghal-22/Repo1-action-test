@@ -1,0 +1,15 @@
+on:
+    workflow_call:
+        inputs:
+            enable_sbom:
+                type: boolean
+                default: false
+            enable_v: 
+                type: boolean
+                default: false
+jobs:
+    checks:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Test
+              run: echo "hello" 
