@@ -19,9 +19,9 @@ jobs:
             - name: Repo check
               run: echo "${{ github.repository }}"
 
-    sbom_job:
-        if: ${{ inputs.enable_sbom }}
-        uses: ./.github/workflows/call.yml
+    # sbom_job:
+    #     if: ${{ inputs.enable_sbom }}
+    #     uses: ./.github/workflows/call.yml
     v_job:
         if: ${{ inputs.enable_v }}
         uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/call_v.yaml@master
