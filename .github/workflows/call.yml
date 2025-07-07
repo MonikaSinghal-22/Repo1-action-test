@@ -11,6 +11,7 @@ on:
         branches:
             fix/update_url
             main
+    workflow_call:
 
 jobs:
   collect-data:
