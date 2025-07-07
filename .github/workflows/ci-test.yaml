@@ -16,6 +16,9 @@ jobs:
 
             - uses: actions/checkout@v4
 
+            - name: Repo check
+              run: ${{ github.repository }}
+
             - name: SBOM
               if: ${{ inputs.enable_sbom }}
               run: echo "enable sbom"
