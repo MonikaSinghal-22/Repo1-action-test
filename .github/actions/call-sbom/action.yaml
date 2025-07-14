@@ -3,14 +3,13 @@ description: "sbom"
 
 on:
   workflows_call:
-
-inputs:
-  version:
-    description: version
-    required: true
-  release_type: 
-    description: release_type
-    required: false
+    inputs:
+      version:
+        description: version
+        required: true
+      release_type: 
+        description: release_type
+        required: false
 
 jobs:
   send-data:
