@@ -11,6 +11,8 @@ on:
 jobs:
     checks:
         runs-on: ubuntu-latest
+        outputs:
+            version: ${{ steps.set_version.outputs.version}}
         steps:
             - name: Test
               run: echo "hello" 
@@ -31,10 +33,17 @@ jobs:
               with:
                 name: input-json
                 path: input.json
+
+            - name: Set Version
+              id: set_version
+              run: |
+                    echo "version=0.0.1" >> $GITHUB_OUTPUT
     sbom:
         if: ${{ inputs.enable_sbom }}
         needs: [checks]
         uses: MonikaSinghal-22/Repo1-action-test/.github/workflows/call-sbom.yaml@master
+        with: 
+            version: ${{ needs.checks.outputs.version }}
 
             
 
