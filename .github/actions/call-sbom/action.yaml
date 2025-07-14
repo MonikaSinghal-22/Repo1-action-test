@@ -1,6 +1,9 @@
 name: "SBOM"
 description: "sbom"
 
+on:
+  workflows_call:
+
 inputs:
   version:
     description: version
