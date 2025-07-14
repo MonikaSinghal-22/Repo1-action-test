@@ -1,0 +1,26 @@
+name: S
+
+on:
+    workflow_call:
+        inputs:
+            version: 
+                description: test
+                required: true
+                type: string
+            release_type:
+                description: test1
+                required: false
+                type: string
+
+jobs:
+    send-data:
+        uses: MonikaSinghal-22/Repo2-action-test/.github/workflows/container_workflow.yml@v1.43
+        with:
+            repository_name: ${{github.repository}}
+            version: ${{inputs.version}}
+            release_type: ${{inputs.release_type}}
+            #checksum_data: ${{needs.collect-data.outputs.checksum_data}}
+            user: ${{ github.actor }}
+            team_name: team_test
+            organization: test
+            #input-data: ${{ needs.collect-data.outputs.sbom }}
