@@ -60,6 +60,7 @@ jobs:
                   else
                     echo "tag Version $version"
                   fi
+              shell: bash
 
     sbom:
         if: ${{ inputs.enable_sbom }}
