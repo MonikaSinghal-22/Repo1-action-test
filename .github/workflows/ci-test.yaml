@@ -39,12 +39,22 @@ jobs:
               run: |
                   BRANCH="${GITHUB_REF##*/}"
                   echo "BRANCH= $BRANCH"
+
                   version=$(git describe --tags --abbrev=0 2>/dev/null)
-                  echo "tag Version $version"
+                  if [-z "$version"]; then 
+                    echo "not found"
+                  else
+                    echo "tag Version $version"
+                  
                   version=$(git describe --abbrev=0 --match "[0-9]*" 2>/dev/null)
-                  echo "version $version"
+                    if [-z "$version"]; then 
+                    echo "not found"
+                  else
+                  
                   version=$(jq -r .version package.json)
-                  echo "version $version"
+                    if [-z "$version"]; then 
+                    echo "not found"
+                  else
 
     sbom:
         if: ${{ inputs.enable_sbom }}
