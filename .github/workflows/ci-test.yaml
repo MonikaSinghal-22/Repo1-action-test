@@ -37,7 +37,15 @@ jobs:
             - name: Set Version
               id: set_version
               run: |
-                    echo "version=0.0.1" >> $GITHUB_OUTPUT
+                  BRANCH="${GITHUB_REF##*/}"
+                  echo "BRANCH= $BRANCH"
+                  version=$(git describe --tags --abbrev=0 2>/dev/null)
+                  echo "tag Version $version"
+                  version=$(git describe --abbrev=0 --match "[0-9]*" 2>/dev/null)
+                  echo "version $version"
+                  version=$(jq -r .version package.json)
+                  echo "version $version"
+
     sbom:
         if: ${{ inputs.enable_sbom }}
         needs: [checks]
